@@ -1,0 +1,437 @@
+%CMF
+# %PSECTS Section
+# For each object file, details of its psects are enumerated here.
+# The begining of the section is indicated by %PSECTS.  The first
+# line indicates the name of the first object file, e.g.
+#    $foo.obj
+# Each line that follows describes a psect in that object file, until
+# the next object file.  The lines that describe a psect have the
+# format:
+#    <psect name> <class name> <space> <link address> <load addresses> <length> <delta> <reloc>
+# All addresses and the length are given in unqualified hexadecimal
+# in delta units.  Any other numeric values are decimal.
+%PSECTS
+$build/default/debug/main.o
+table CODE 0 0 0 218 2 1
+udata_bank0 BANK0 1 20 20 12 1 1
+udata_shr COMMON 1 70 70 2 1 1
+VectorReset CODE 0 0 0 74 2 1
+config CONFIG 4 2007 2007 2 2 1
+# %UNUSED Section
+# This section enumerates the unused ranges of each CLASS. Each entry
+# is described on a single line as follows:
+#    <class name> <range> <delta>
+# Addresses given in the range are in hexadecimal and units of delta.
+%UNUSED
+RAM 32-6F 1
+RAM A0-EF 1
+RAM 110-16F 1
+RAM 190-1EF 1
+BANK0 32-6F 1
+BANK1 A0-EF 1
+BANK2 110-16F 1
+BANK3 190-1EF 1
+CONST 218-1FFF 2
+ENTRY 218-1FFF 2
+IDLOC 2000-2003 2
+CODE 218-1FFF 2
+COMMON 72-7F 1
+EEDATA 2100-21FF 2
+STRCODE 218-1FFF 2
+STRING 218-1FFF 2
+# %LINETAB Section
+# This section enumerates the file/line to address mappings.
+# The beginning of the section is indicated by %LINETAB.
+# The first line indicates the name of the first object file, e.g.
+#   $foo.obj
+# Each line that follows describes a single mapping until the next
+# object file.  Mappings have the following format:
+#    <address> <psect name> <class name> ><line number>:<file name>
+# The address is absolute and given given in unqualified hex 
+# in delta units of the psect. All mappings within an object file
+# are in ascending order of addresses.
+# All other numeric values are in decimal.
+%LINETAB
+$build/default/debug/main.o
+0 table CODE >322:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+150 table CODE >325:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+151 table CODE >326:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+152 table CODE >327:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+153 table CODE >328:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+154 table CODE >329:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+155 table CODE >330:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+156 table CODE >331:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+157 table CODE >332:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+158 table CODE >333:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+159 table CODE >334:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+15A table CODE >335:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+15B table CODE >336:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+15C table CODE >337:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+15D table CODE >338:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+15E table CODE >339:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+15F table CODE >340:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+160 table CODE >341:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+161 table CODE >342:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+162 table CODE >343:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+163 table CODE >344:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+164 table CODE >352:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+165 table CODE >353:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+166 table CODE >354:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+167 table CODE >355:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+168 table CODE >356:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+169 table CODE >357:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+16A table CODE >358:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+16B table CODE >360:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+16D table CODE >371:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+16E table CODE >372:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+16F table CODE >374:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+170 table CODE >375:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+171 table CODE >376:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+172 table CODE >385:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+173 table CODE >386:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+174 table CODE >387:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+175 table CODE >388:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+176 table CODE >390:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+177 table CODE >393:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+178 table CODE >394:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+179 table CODE >395:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+17A table CODE >396:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+17B table CODE >396:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+17C table CODE >396:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+17D table CODE >396:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+17E table CODE >396:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+17F table CODE >396:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+180 table CODE >396:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+181 table CODE >396:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+182 table CODE >396:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+183 table CODE >396:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+184 table CODE >396:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+185 table CODE >396:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+186 table CODE >397:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+187 table CODE >398:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+188 table CODE >398:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+189 table CODE >398:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+18A table CODE >398:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+18B table CODE >398:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+18C table CODE >398:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+18D table CODE >398:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+18E table CODE >398:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+18F table CODE >398:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+190 table CODE >398:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+191 table CODE >398:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+192 table CODE >398:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+193 table CODE >399:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+194 table CODE >403:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+195 table CODE >403:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+196 table CODE >403:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+197 table CODE >403:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+198 table CODE >403:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+199 table CODE >403:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+19A table CODE >404:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+19B table CODE >404:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+19C table CODE >404:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+19D table CODE >404:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+19E table CODE >404:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+19F table CODE >404:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1A0 table CODE >405:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1A1 table CODE >405:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1A2 table CODE >405:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1A3 table CODE >405:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1A4 table CODE >405:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1A5 table CODE >405:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1A6 table CODE >406:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1A7 table CODE >406:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1A8 table CODE >406:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1A9 table CODE >406:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1AA table CODE >406:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1AB table CODE >406:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1AC table CODE >407:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1AD table CODE >407:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1AE table CODE >407:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1AF table CODE >407:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1B0 table CODE >407:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1B1 table CODE >407:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1B2 table CODE >407:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1B3 table CODE >407:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1B4 table CODE >407:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1B5 table CODE >407:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1B6 table CODE >408:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1B7 table CODE >415:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1B9 table CODE >416:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1BA table CODE >417:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1BB table CODE >418:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1BC table CODE >420:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1BD table CODE >421:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1BE table CODE >424:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1C0 table CODE >425:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1C1 table CODE >426:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1C2 table CODE >427:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1C3 table CODE >428:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1C4 table CODE >429:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1C5 table CODE >431:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1C7 table CODE >431:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1C8 table CODE >431:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1C9 table CODE >431:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1CA table CODE >432:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1CB table CODE >435:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1CD table CODE >436:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1CE table CODE >438:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1CF table CODE >439:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1D0 table CODE >441:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1D1 table CODE >442:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1D2 table CODE >443:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1D3 table CODE >445:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1D4 table CODE >445:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1D5 table CODE >445:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1D6 table CODE >445:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1D7 table CODE >445:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1D8 table CODE >446:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1D9 table CODE >449:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1DB table CODE >450:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1DC table CODE >451:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1DD table CODE >453:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1DF table CODE >454:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1E0 table CODE >455:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1E1 table CODE >457:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1E2 table CODE >458:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1E3 table CODE >459:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1E4 table CODE >460:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1E5 table CODE >462:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1E6 table CODE >463:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1E7 table CODE >466:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1E9 table CODE >467:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1EA table CODE >468:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1EB table CODE >469:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1EC table CODE >470:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1ED table CODE >471:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1EE table CODE >473:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1F0 table CODE >474:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1F1 table CODE >475:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1F2 table CODE >477:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1F3 table CODE >480:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1F5 table CODE >481:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1F6 table CODE >484:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1F8 table CODE >485:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1F9 table CODE >486:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1FA table CODE >488:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1FB table CODE >489:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1FC table CODE >491:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1FD table CODE >492:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1FE table CODE >494:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1FF table CODE >495:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+200 table CODE >496:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+201 table CODE >499:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+203 table CODE >500:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+204 table CODE >501:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+205 table CODE >503:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+207 table CODE >504:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+208 table CODE >505:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+209 table CODE >506:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+20A table CODE >508:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+20B table CODE >509:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+20C table CODE >510:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+20D table CODE >511:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+20E table CODE >512:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+20F table CODE >515:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+210 table CODE >517:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+212 table CODE >518:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+213 table CODE >519:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+214 table CODE >520:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+215 table CODE >521:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+216 table CODE >522:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+217 table CODE >524:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+0 VectorReset CODE >177:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+0 VectorReset CODE >180:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+2 VectorReset CODE >181:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+3 VectorReset CODE >187:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+4 VectorReset CODE >189:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+5 VectorReset CODE >190:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+6 VectorReset CODE >191:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+7 VectorReset CODE >194:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+8 VectorReset CODE >195:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+9 VectorReset CODE >196:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+A VectorReset CODE >197:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+B VectorReset CODE >198:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+C VectorReset CODE >199:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+D VectorReset CODE >204:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+E VectorReset CODE >205:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+F VectorReset CODE >206:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+10 VectorReset CODE >207:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+11 VectorReset CODE >208:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+12 VectorReset CODE >214:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+14 VectorReset CODE >215:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+15 VectorReset CODE >216:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+16 VectorReset CODE >217:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+17 VectorReset CODE >218:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+18 VectorReset CODE >220:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+19 VectorReset CODE >221:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1A VectorReset CODE >224:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1B VectorReset CODE >225:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1C VectorReset CODE >225:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1D VectorReset CODE >225:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1E VectorReset CODE >225:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+1F VectorReset CODE >225:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+20 VectorReset CODE >226:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+21 VectorReset CODE >229:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+22 VectorReset CODE >230:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+23 VectorReset CODE >232:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+24 VectorReset CODE >233:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+25 VectorReset CODE >234:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+26 VectorReset CODE >235:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+27 VectorReset CODE >236:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+28 VectorReset CODE >237:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+29 VectorReset CODE >238:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+2A VectorReset CODE >241:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+2B VectorReset CODE >242:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+2C VectorReset CODE >243:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+2D VectorReset CODE >245:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+2E VectorReset CODE >245:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+2F VectorReset CODE >245:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+30 VectorReset CODE >245:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+31 VectorReset CODE >245:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+32 VectorReset CODE >245:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+33 VectorReset CODE >245:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+34 VectorReset CODE >245:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+35 VectorReset CODE >246:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+36 VectorReset CODE >249:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+37 VectorReset CODE >250:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+38 VectorReset CODE >251:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+39 VectorReset CODE >253:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+3A VectorReset CODE >253:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+3B VectorReset CODE >253:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+3C VectorReset CODE >253:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+3D VectorReset CODE >253:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+3E VectorReset CODE >253:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+3F VectorReset CODE >253:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+40 VectorReset CODE >253:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+41 VectorReset CODE >254:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+42 VectorReset CODE >257:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+43 VectorReset CODE >258:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+45 VectorReset CODE >258:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+46 VectorReset CODE >258:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+47 VectorReset CODE >258:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+48 VectorReset CODE >259:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+49 VectorReset CODE >262:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+4A VectorReset CODE >263:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+4B VectorReset CODE >264:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+4C VectorReset CODE >265:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+4D VectorReset CODE >267:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+4E VectorReset CODE >268:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+4F VectorReset CODE >270:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+50 VectorReset CODE >271:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+51 VectorReset CODE >273:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+52 VectorReset CODE >274:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+53 VectorReset CODE >275:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+54 VectorReset CODE >276:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+55 VectorReset CODE >279:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+56 VectorReset CODE >280:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+57 VectorReset CODE >281:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+58 VectorReset CODE >282:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+59 VectorReset CODE >283:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+5A VectorReset CODE >284:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+5B VectorReset CODE >287:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+5C VectorReset CODE >288:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+5D VectorReset CODE >289:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+5E VectorReset CODE >290:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+5F VectorReset CODE >291:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+60 VectorReset CODE >292:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+61 VectorReset CODE >295:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+62 VectorReset CODE >296:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+63 VectorReset CODE >297:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+64 VectorReset CODE >298:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+65 VectorReset CODE >299:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+66 VectorReset CODE >300:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+67 VectorReset CODE >304:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+68 VectorReset CODE >305:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+69 VectorReset CODE >306:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+6A VectorReset CODE >307:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+6B VectorReset CODE >308:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+6C VectorReset CODE >309:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+6D VectorReset CODE >312:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+6E VectorReset CODE >313:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+6F VectorReset CODE >313:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+70 VectorReset CODE >313:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+71 VectorReset CODE >313:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+72 VectorReset CODE >313:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+73 VectorReset CODE >315:C:\Users\THEJ0S3FER\Desktop\Proyecto reloj progra de microcontroladores\Reloj.X\main.s
+# %SYMTAB Section
+# An enumeration of all symbols in the program.
+# The beginning of the section is indicated by %SYMTAB.
+# Each line describes a single symbol as follows:
+#    <label> <value> [-]<load-adj> <class> <space> <psect> <file-name>
+# The value and load-adj are both in unqualified hexadecimal.
+# All other numeric values are in decimal.  The load-adj is the
+# quantity one needs to add to the symbol value in order to obtain the load
+# address of the symbol.  This value may be signed. If the symbol
+# was defined in a psect then <psect> will be "-". File-name
+# is the name of the object file in which the symbol was defined.
+%SYMTAB
+__Hspace_0 218 0 ABS 0 - -
+__Hspace_1 72 0 ABS 0 - -
+__Hspace_3 0 0 ABS 0 - -
+__Hspace_4 4010 0 ABS 0 - -
+__Hudata_bank0 0 0 ABS 0 udata_bank0 -
+__Hudata_bank1 0 0 ABS 0 udata_bank1 -
+__Hudata_bank2 0 0 ABS 0 udata_bank2 -
+__Hudata_bank3 0 0 ABS 0 udata_bank3 -
+__HVectorReset 0 0 ABS 0 VectorReset -
+__Hedata 0 0 ABS 0 edata -
+__Htable 0 0 ABS 0 table -
+__Hudata 0 0 ABS 0 udata -
+__Hconfig 4012 0 CONFIG 4 config -
+__Ledata 0 0 ABS 0 edata -
+__Ltable 0 0 ABS 0 table -
+__Ludata 0 0 ABS 0 udata -
+__Hcode 0 0 ABS 0 code -
+__Hdata 0 0 ABS 0 data -
+__Lcode 0 0 ABS 0 code -
+__Ldata 0 0 ABS 0 data -
+__S0 0 0 ABS 0 - -
+__S1 72 0 ABS 0 - -
+__S3 0 0 ABS 0 - -
+__Lconfig 0 0 CONFIG 4 config -
+__Lspace_0 0 0 ABS 0 - -
+__Lspace_1 0 0 ABS 0 - -
+__Lspace_3 0 0 ABS 0 - -
+__Lspace_4 0 0 ABS 0 - -
+__Ludata_bank0 0 0 ABS 0 udata_bank0 -
+__Ludata_bank1 0 0 ABS 0 udata_bank1 -
+__Ludata_bank2 0 0 ABS 0 udata_bank2 -
+__Ludata_bank3 0 0 ABS 0 udata_bank3 -
+__Hudata_shr 0 0 ABS 0 udata_shr -
+__LVectorReset 0 0 ABS 0 VectorReset -
+__Ludata_shr 0 0 ABS 0 udata_shr -
+# %SPLITSTAB Section
+# This section enumerates all the psect splits performed by the assembler.
+# The beginning of the section is indicated by %SPLITSTAB.
+# Each line is a record a particular split, where the parent psect is on
+# the left and the child on the right.  Note that a child psect is always
+# split form the top of the parent psect. All splits from a given parent
+# are listed in the order in which they occurred.
+%SPLITSTAB
+# %DABS Section
+# This section contains a table of all usuage of the assember
+# directive DABS in the program. Each line has the following format:
+#   <name> <space> <address> <size>
+# If the DABS was originally labelled then that shall be <name>,
+# otherwise name will be "-".  The <space> number is in decimal.
+# <address> and <size> are in byte units as unqaulified hexadecimal
+%DABS
+# %SEGMENTS Section
+# This sections enumerates the segments of the program.  Each segment
+# is described on a single line as follows:
+#    <name> <space> <link address> <file address> <size> <delta>
+# Addresses and size are in unqualified hexadecimal.  The link address
+# and size are in units of delta. The file address is in units of bytes.
+# All other numeric quantities are in decimal.
+%SEGMENTS
+udata_bank0 1 20 20 12 1
+udata_shr 1 70 70 2 1
+# %NOTES Section
+# This section contains data of all the note-psects.  The beginning of the section
+# is indicated by %NOTES. The first line indicates the name and decimal
+# byte-length of the first note-psect, e.g.
+#   $codecov_info_hdr 16
+# Each line that follows contains the byte-data of the psect in hexadecimal as a
+# space-separated list. These lines are limited to 16 bytes of data.
+%NOTES
