@@ -2534,18 +2534,87 @@ COUNT_RESET macro limit, register_rev
     endm
 
 OVRFLW_COUNT_RESET macro limit_decs, limit_units, register_rev_decs, register_rev_units
-    MOVLW limit_decs ; Enviar la literal limit_decs a W
-    SUBWF register_rev_decs, W ; Restar limit al registro register_rev_decs
-    BTFSS STATUS, 2 ; Verificar si ya se ha contado hasta limit_decs
-    return ; NO: salir de la subrutina
     MOVLW limit_units ; SÍ: enviar la literal limit_units a W
     SUBWF register_rev_units, W ; Restar limit al registro register_rev_units
     BTFSS STATUS, 2 ; verificar si ya se ha contado hasta limit_units
+    return ; NO: salir de la subrutina
+    MOVLW limit_decs ; Enviar la literal limit_decs a W
+    SUBWF register_rev_decs, W ; Restar limit al registro register_rev_decs
+    BTFSS STATUS, 2 ; Verificar si ya se ha contado hasta limit_decs
     return ; NO: salir de la subrutina
     CLRF register_rev_decs ; SÍ: limpiar register_rev_decs y register_rev_units
     CLRF register_rev_units
     endm
 
+OVRFLW_COUNT_RESET_INC macro limit_decs, limit_units, register_rev_decs, register_rev_units, inc_register
+    MOVLW limit_units ; SÍ: enviar la literal limit_units a W
+    SUBWF register_rev_units, W ; Restar limit al registro register_rev_units
+    BTFSS STATUS, 2 ; verificar si ya se ha contado hasta limit_units
+    return ; NO: salir de la subrutina
+    MOVLW limit_decs ; Enviar la literal limit_decs a W
+    SUBWF register_rev_decs, W ; Restar limit al registro register_rev_decs
+    BTFSS STATUS, 2 ; Verificar si ya se ha contado hasta limit_decs
+    return ; NO: salir de la subrutina
+    CLRF register_rev_decs ; SÍ: limpiar register_rev_decs y register_rev_units
+    CLRF register_rev_units
+    INCF inc_register
+    endm
+
+  INC_REG_TWO_LIMITS macro limit_decs, limit_units, register_rev_decs, register_rev_units, set_register
+    MOVLW limit_units ; SÍ: enviar la literal limit_units a W
+    SUBWF register_rev_units, W ; Restar limit al registro register_rev_units
+    BTFSS STATUS, 2 ; verificar si ya se ha contado hasta limit_units
+    return ; NO: salir de la subrutina
+    MOVLW limit_decs ; Enviar la literal limit_decs a W
+    SUBWF register_rev_decs, W ; Restar limit al registro register_rev_decs
+    BTFSS STATUS, 2 ; Verificar si ya se ha contado hasta limit_decs
+    return ; NO: salir de la subrutina
+    ; SÍ: limpiar register_rev_decs y register_rev_units
+    INCF set_register
+    endm
+
+MOV_VALS_REGS macro val_decs, val_units, reg_decs, reg_units
+
+    MOVLW val_decs
+    MOVWF reg_decs
+    MOVLW val_units
+    MOVWF reg_units
+    endm
+
+UNDRFLW_RESET_DEC macro under_limit, adopt_value_units, register_rev, register_dec
+    MOVLW under_limit
+    SUBWF register_rev, W
+    BTFSS STATUS, 2
+    return
+    MOVLW adopt_value_units
+    MOVWF register_rev
+    DECF register_dec
+    endm
+
+UNDRFLW_RESET macro under_limit, adopt_value_units, register_rev
+    MOVLW under_limit
+    SUBWF register_rev, W
+    BTFSS STATUS, 2
+    return
+    MOVLW adopt_value_units
+    MOVWF register_rev
+    endm
+
+ ZERO_DOUBLE_UNDRFLW_DEC macro adopt_value_decs, adopt_value_units, register_rev_decs, register_rev_units, dec_reg
+    MOVLW 0 ; SÍ: enviar la literal limit_units a W
+    SUBWF register_rev_units, W ; Restar limit al registro register_rev_units
+    BTFSS STATUS, 2 ; verificar si ya se ha contado hasta limit_units
+    return ; NO: salir de la subrutina
+    MOVLW 0 ; Enviar la literal limit_decs a W
+    SUBWF register_rev_decs, W ; Restar limit al registro register_rev_decs
+    BTFSS STATUS, 2 ; Verificar si ya se ha contado hasta limit_decs
+    return ; NO: salir de la subrutina
+    MOVLW adopt_value_decs
+    MOVWF register_rev_decs
+    MOVLW adopt_value_units
+    MOVWF register_rev_units
+    DECF dec_reg
+    endm
 ;******************** Macros de display ****************************************
 DISPLAY_SHOW_STATE macro state_register1, state_register2, state_register3, state_register4
     MOVF state_register1, W ; Movemos nibble bajo a W
@@ -2609,7 +2678,7 @@ MOV_REG_SETS macro register1, dest_register1, register2, dest_register2, registe
     EDIT_REG_3: DS 1 ; 4 bytes reservados (Variable que almacena el tercer valor de los displays del modo edición)
     EDIT_REG_4: DS 1 ; 4 bytes reservados (Variable que almacena el cuarto valor de los displays del modo edición)
 
-;******************** variables de modo hora H ********************************
+;******************** variables de modo hora S0 ********************************
 
     S0_SECS: DS 1 ; 1 byte reservado (Variable para definir los segundos transcurridos)
     S0_MINS_UNITS: DS 1 ; 1 byte reservado (Variable para definir las unidades de minutos transcurridos)
@@ -2617,7 +2686,14 @@ MOV_REG_SETS macro register1, dest_register1, register2, dest_register2, registe
     S0_HRS_UNITS: DS 1 ; 1 byte reservado (Variable para definir las unidades de horas transcurridas)
     S0_HRS_DECS: DS 1 ; 1 byte reservado (Variable para definir las decenas de horas transcurridas)
 
+;******************** variables de modo fecha S1 *******************************
 
+    S1_DAYS_UNITS: DS 1 ; 1 byte reservado (Variable para definir las unidades de días transcurridos)
+    S1_DAYS_DECS: DS 1 ; 1 byte reservado (Variable para definir las decenas de días transcurridos)
+    S1_MONTHS_UNITS: DS 1 ; 1 byte reservado (Variable para definir las unidades de meses transcurridos)
+    S1_MONTHS_DECS: DS 1 ; 1 byte reservado (Variable para definir las decenas de meses transcurridos)
+
+    TRANSC_MONTHS: DS 1 ; 1 byte reservado (Variable para contar la cantidad de meses transcurridos durante el año para definir la cantidad de días por mes)
 ;-------------------------------------------------------------------------------
 ;Vector Reset
 ;-------------------------------------------------------------------------------
@@ -2665,6 +2741,10 @@ int_IOCB:
     call change_state
     BTFSS PORTB, 2
     call change_edit
+    BTFSS PORTB, 3
+    DECF EDIT_REG_1
+    BTFSS PORTB, 4
+    INCF EDIT_REG_1
 
     BCF ((INTCON) and 07Fh), 0 ; SÍ: limpiamos la bandera de interrupción
     return
@@ -2689,17 +2769,35 @@ change_edit:
 capture_reg_values:
     MOVLW 0 ; Revisión de si el estado actual es 0 - mover 0 a W
     SUBWF STATE, W ; Restar la literal a la variable STATE
-    BTFSC STATUS, 2 ; Revisar si el resultado de la resta es 0
+    BTFSS STATUS, 2 ; Revisar si el resultado de la resta es 0
+    goto S1_reg_values
        ; SÍ: enviar los valores de las variables de S0 a las variables del modo edit
     MOV_REG_SETS S0_MINS_UNITS, EDIT_REG_1, S0_MINS_DECS, EDIT_REG_2, S0_HRS_UNITS, EDIT_REG_3, S0_HRS_DECS, EDIT_REG_4
+    return
+    S1_reg_values:
+    MOVLW 1 ; NO: Revisión de si el estado actual es 1 - mover 1 a W
+    SUBWF STATE, W ; Restar la literal a la variable STATE
+    BTFSS STATUS, 2 ; Revisar si el resultado de la resta es 0
+    return
+       ; SÍ: enviar los valores de las variables de S0 a las variables del modo edit
+    MOV_REG_SETS S1_DAYS_UNITS, EDIT_REG_1, S1_DAYS_DECS, EDIT_REG_2, S1_MONTHS_UNITS, EDIT_REG_3, S1_MONTHS_DECS, EDIT_REG_4
     return
 
 ret_reg_values:
     MOVLW 0 ; Revisión de si el estado actual es 0 - mover 0 a W
     SUBWF STATE, W ; Restar la literal a la variable STATE
-    BTFSC STATUS, 2 ; Revisar si el resultado de la resta es 0
+    BTFSS STATUS, 2 ; Revisar si el resultado de la resta es 0
+    goto S1_ret_values
        ; SÍ: enviar los valores de las variables del modo edit a las variables de S0
     MOV_REG_SETS EDIT_REG_1, S0_MINS_UNITS, EDIT_REG_2, S0_MINS_DECS, EDIT_REG_3, S0_HRS_UNITS, EDIT_REG_4, S0_HRS_DECS
+
+    S1_ret_values:
+    MOVLW 1 ; NO: Revisión de si el estado actual es 1 - mover 1 a W
+    SUBWF STATE, W ; Restar la literal a la variable STATE
+    BTFSS STATUS, 2 ; Revisar si el resultado de la resta es 0
+    return
+       ; SÍ: enviar los valores de las variables del modo edit a las variables de S0
+    MOV_REG_SETS EDIT_REG_1, S1_DAYS_UNITS, EDIT_REG_2, S1_DAYS_DECS, EDIT_REG_3, S1_MONTHS_UNITS, EDIT_REG_4, S1_MONTHS_DECS
     return
 
 int_TMR0:
@@ -2806,6 +2904,9 @@ main:
     call config_int_enable ; configuramos las interrupciones
     call config_ports ; configuramos puertos
 
+    INCF TRANSC_MONTHS
+
+
     banksel PORTA
            ;---------------------------------------------------
        ;TEMPORIZACIÓN TIMER0: 2 ms
@@ -2818,9 +2919,13 @@ main:
 ;-------------------------------------------------------------------------------
 loop:
     call S0_time_check ; Control del tiempo en las variables del modo hora
+    call S1_date_check ; Control de la fecha en las variables del modo fecha
     call display_state_show ; Envío de literales a los displays dependiendo del modo
+    call edit_reg_check ; Control del overflow y underflow de las variables de edición
 
-    MOVF EDIT_REG_1, W
+
+
+    MOVF TRANSC_MONTHS, W
     MOVWF PORTA
     goto loop
 
@@ -2829,31 +2934,358 @@ loop:
 ;subrutinas
 ;-------------------------------------------------------------------------------
 
+S0_time_check:
+
+    COUNT_RESET_INC 60, S0_SECS, S0_MINS_UNITS
+    COUNT_RESET_INC 10, S0_MINS_UNITS, S0_MINS_DECS
+    COUNT_RESET_INC 6, S0_MINS_DECS, S0_HRS_UNITS
+    OVRFLW_COUNT_RESET_INC 2, 4, S0_HRS_DECS, S0_HRS_UNITS, S1_DAYS_UNITS
+    COUNT_RESET_INC 10, S0_HRS_UNITS, S0_HRS_DECS
+
+    return
+
+S1_date_check:
+    call months_transc_limits
+    call date_limits
+
+    ; Se efectúa una resta para verificar el mes actual y así efectuar el overflow adecuado en la cantidad de días
+    MOVLW 1 ; Enero
+    SUBWF TRANSC_MONTHS, W
+    BTFSS STATUS, 2
+    goto Febrero
+    MOV_VALS_REGS 0, 1, S1_MONTHS_DECS, S1_MONTHS_UNITS
+    OVRFLW_COUNT_RESET_INC 3, 2, S1_DAYS_DECS, S1_DAYS_UNITS, TRANSC_MONTHS
+
+    Febrero:
+    MOVLW 2
+    SUBWF TRANSC_MONTHS, W
+    BTFSS STATUS, 2
+    goto Marzo
+    MOV_VALS_REGS 0, 2, S1_MONTHS_DECS, S1_MONTHS_UNITS
+    OVRFLW_COUNT_RESET_INC 2, 9, S1_DAYS_DECS, S1_DAYS_UNITS, TRANSC_MONTHS
+
+
+    Marzo:
+    MOVLW 3
+    SUBWF TRANSC_MONTHS, W
+    BTFSS STATUS, 2
+    goto Abril
+    MOV_VALS_REGS 0, 3, S1_MONTHS_DECS, S1_MONTHS_UNITS
+    OVRFLW_COUNT_RESET_INC 3, 2, S1_DAYS_DECS, S1_DAYS_UNITS, TRANSC_MONTHS
+
+    Abril:
+    MOVLW 4
+    SUBWF TRANSC_MONTHS, W
+    BTFSS STATUS, 2
+    goto Mayo
+    MOV_VALS_REGS 0, 4, S1_MONTHS_DECS, S1_MONTHS_UNITS
+    OVRFLW_COUNT_RESET_INC 3, 1, S1_DAYS_DECS, S1_DAYS_UNITS, TRANSC_MONTHS
+
+    Mayo:
+    MOVLW 5
+    SUBWF TRANSC_MONTHS, W
+    BTFSS STATUS, 2
+    goto Junio
+    MOV_VALS_REGS 0, 5, S1_MONTHS_DECS, S1_MONTHS_UNITS
+    OVRFLW_COUNT_RESET_INC 3, 2, S1_DAYS_DECS, S1_DAYS_UNITS, TRANSC_MONTHS
+
+    Junio:
+    MOVLW 6
+    SUBWF TRANSC_MONTHS, W
+    BTFSS STATUS, 2
+    goto Julio
+    MOV_VALS_REGS 0, 6, S1_MONTHS_DECS, S1_MONTHS_UNITS
+    OVRFLW_COUNT_RESET_INC 3, 1, S1_DAYS_DECS, S1_DAYS_UNITS, TRANSC_MONTHS
+
+    Julio:
+    MOVLW 7
+    SUBWF TRANSC_MONTHS, W
+    BTFSS STATUS, 2
+    goto Agosto
+    MOV_VALS_REGS 0, 7, S1_MONTHS_DECS, S1_MONTHS_UNITS
+    OVRFLW_COUNT_RESET_INC 3, 2, S1_DAYS_DECS, S1_DAYS_UNITS, TRANSC_MONTHS
+
+    Agosto:
+    MOVLW 8
+    SUBWF TRANSC_MONTHS, W
+    BTFSS STATUS, 2
+    goto Septiembre
+    MOV_VALS_REGS 0, 8, S1_MONTHS_DECS, S1_MONTHS_UNITS
+    OVRFLW_COUNT_RESET_INC 3, 2, S1_DAYS_DECS, S1_DAYS_UNITS, TRANSC_MONTHS
+
+    Septiembre:
+    MOVLW 9
+    SUBWF TRANSC_MONTHS, W
+    BTFSS STATUS, 2
+    goto Octubre
+    MOV_VALS_REGS 0, 9, S1_MONTHS_DECS, S1_MONTHS_UNITS
+    OVRFLW_COUNT_RESET_INC 3, 1, S1_DAYS_DECS, S1_DAYS_UNITS, TRANSC_MONTHS
+
+    Octubre:
+    MOVLW 10
+    SUBWF TRANSC_MONTHS, W
+    BTFSS STATUS, 2
+    goto Noviembre
+    MOV_VALS_REGS 1, 0, S1_MONTHS_DECS, S1_MONTHS_UNITS
+    OVRFLW_COUNT_RESET_INC 3, 2, S1_DAYS_DECS, S1_DAYS_UNITS, TRANSC_MONTHS
+
+    Noviembre:
+    MOVLW 11
+    SUBWF TRANSC_MONTHS, W
+    BTFSS STATUS, 2
+    goto Diciembre
+    MOV_VALS_REGS 1, 1, S1_MONTHS_DECS, S1_MONTHS_UNITS
+    OVRFLW_COUNT_RESET_INC 3, 1, S1_DAYS_DECS, S1_DAYS_UNITS, TRANSC_MONTHS
+
+    Diciembre:
+    MOVLW 12
+    SUBWF TRANSC_MONTHS, W
+    BTFSS STATUS, 2
+    goto $+3
+    MOV_VALS_REGS 1, 2, S1_MONTHS_DECS, S1_MONTHS_UNITS
+    OVRFLW_COUNT_RESET_INC 3, 2, S1_DAYS_DECS, S1_DAYS_UNITS, TRANSC_MONTHS
+    return
+
+months_transc_limits:
+    MOVLW 13
+    SUBWF TRANSC_MONTHS, W
+    BTFSS STATUS, 2
+    return
+    MOVLW 1
+    MOVWF TRANSC_MONTHS
+    return
+
+date_limits:
+    INC_REG_TWO_LIMITS 0, 0, S1_DAYS_DECS, S1_DAYS_UNITS, S1_DAYS_UNITS
+
+    COUNT_RESET_INC 10, S1_DAYS_UNITS, S1_DAYS_DECS
+    COUNT_RESET 6, S1_DAYS_DECS
+    return
+
+edit_reg_check:
+    MOVLW 0 ; Revisión de si el estado actual es 0 - mover 0 a W
+    SUBWF STATE, W ; Restar la literal a la variable STATE
+    BTFSC STATUS, 2 ; Revisar si el resultado de la resta es 0
+    call S0_edit_limits ; SÍ: verificar los límites de las variables de edición durante el estado S0
+
+    MOVLW 1 ; Revisión de si el estado actual es 1 - mover 1 a W
+    SUBWF STATE, W ; Restar la literal a la variable STATE
+    BTFSC STATUS, 2 ; Revisar si el resultado de la resta es 0
+    call S1_edit_limits ; SÍ: verificar los límites de las variables de edición durante el estado S1
+
+    return
+
+S0_edit_limits:
+    call S0_edit_limits_up
+    call S0_edit_limits_down
+
+S0_edit_limits_up:
+    COUNT_RESET_INC 10, EDIT_REG_1, EDIT_REG_2
+    COUNT_RESET_INC 6, EDIT_REG_2, EDIT_REG_3
+    OVRFLW_COUNT_RESET 2, 4, EDIT_REG_4, EDIT_REG_3
+    COUNT_RESET_INC 10, EDIT_REG_3, EDIT_REG_4
+    return
+
+S0_edit_limits_down:
+    UNDRFLW_RESET_DEC 0xFF, 9, EDIT_REG_1, EDIT_REG_2
+    UNDRFLW_RESET_DEC 0xFF, 5, EDIT_REG_2, EDIT_REG_3
+    UNDRFLW_RESET_DEC 0xFF, 3, EDIT_REG_3, EDIT_REG_4
+    UNDRFLW_RESET 0xFF, 2, EDIT_REG_4
+    return
+
+S1_edit_limits:
+    call S1_edit_limits_up
+    call S1_edit_limits_down
+    return
+
+S1_edit_limits_up:
+    call months_transc_limits
+    call date_limits_edit
+
+    MOVLW 1 ; Enero
+    SUBWF TRANSC_MONTHS, W
+    BTFSS STATUS, 2
+    goto Febrero_up
+    MOV_VALS_REGS 0, 1, EDIT_REG_4, EDIT_REG_3
+    OVRFLW_COUNT_RESET_INC 3, 2, EDIT_REG_2, EDIT_REG_1, TRANSC_MONTHS
+    INC_REG_TWO_LIMITS 0, 0, EDIT_REG_2, EDIT_REG_1, EDIT_REG_1
+
+    Febrero_up:
+    MOVLW 2
+    SUBWF TRANSC_MONTHS, W
+    BTFSS STATUS, 2
+    goto Marzo_up
+    MOV_VALS_REGS 0, 2, EDIT_REG_4, EDIT_REG_3
+    OVRFLW_COUNT_RESET_INC 2, 9, EDIT_REG_2, EDIT_REG_1, TRANSC_MONTHS
+    INC_REG_TWO_LIMITS 0, 0, EDIT_REG_2, EDIT_REG_1, EDIT_REG_1
+
+    Marzo_up:
+    MOVLW 3
+    SUBWF TRANSC_MONTHS, W
+    BTFSS STATUS, 2
+    goto Abril_up
+    MOV_VALS_REGS 0, 3, EDIT_REG_4, EDIT_REG_3
+    OVRFLW_COUNT_RESET_INC 3, 2, EDIT_REG_2, EDIT_REG_1, TRANSC_MONTHS
+    INC_REG_TWO_LIMITS 0, 0, EDIT_REG_2, EDIT_REG_1, EDIT_REG_1
+
+    Abril_up:
+    MOVLW 4
+    SUBWF TRANSC_MONTHS, W
+    BTFSS STATUS, 2
+    goto Mayo_up
+    MOV_VALS_REGS 0, 4, EDIT_REG_4, EDIT_REG_3
+    OVRFLW_COUNT_RESET_INC 3, 1, EDIT_REG_2, EDIT_REG_1, TRANSC_MONTHS
+    INC_REG_TWO_LIMITS 0, 0, EDIT_REG_2, EDIT_REG_1, EDIT_REG_1
+
+    Mayo_up:
+    MOVLW 5
+    SUBWF TRANSC_MONTHS, W
+    BTFSS STATUS, 2
+    goto Junio_up
+    MOV_VALS_REGS 0, 5, EDIT_REG_4, EDIT_REG_3
+    OVRFLW_COUNT_RESET_INC 3, 2, EDIT_REG_2, EDIT_REG_1, TRANSC_MONTHS
+    INC_REG_TWO_LIMITS 0, 0, EDIT_REG_2, EDIT_REG_1, EDIT_REG_1
+
+    Junio_up:
+    MOVLW 6
+    SUBWF TRANSC_MONTHS, W
+    BTFSS STATUS, 2
+    goto Julio_up
+    MOV_VALS_REGS 0, 6, EDIT_REG_4, EDIT_REG_3
+    OVRFLW_COUNT_RESET_INC 3, 1, EDIT_REG_2,EDIT_REG_1, TRANSC_MONTHS
+    INC_REG_TWO_LIMITS 0, 0, EDIT_REG_2, EDIT_REG_1, EDIT_REG_1
+
+    Julio_up:
+    MOVLW 7
+    SUBWF TRANSC_MONTHS, W
+    BTFSS STATUS, 2
+    goto Agosto_up
+    MOV_VALS_REGS 0, 7, EDIT_REG_4, EDIT_REG_3
+    OVRFLW_COUNT_RESET_INC 3, 2, EDIT_REG_2, EDIT_REG_1, TRANSC_MONTHS
+    INC_REG_TWO_LIMITS 0, 0, EDIT_REG_2, EDIT_REG_1, EDIT_REG_1
+
+    Agosto_up:
+    MOVLW 8
+    SUBWF TRANSC_MONTHS, W
+    BTFSS STATUS, 2
+    goto Septiembre_up
+    MOV_VALS_REGS 0, 8, EDIT_REG_4, EDIT_REG_3
+    OVRFLW_COUNT_RESET_INC 3, 2, EDIT_REG_2, EDIT_REG_1, TRANSC_MONTHS
+    INC_REG_TWO_LIMITS 0, 0, EDIT_REG_2, EDIT_REG_1, EDIT_REG_1
+
+    Septiembre_up:
+    MOVLW 9
+    SUBWF TRANSC_MONTHS, W
+    BTFSS STATUS, 2
+    goto Octubre_up
+    MOV_VALS_REGS 0, 9, EDIT_REG_4, EDIT_REG_3
+    OVRFLW_COUNT_RESET_INC 3, 1, EDIT_REG_2, EDIT_REG_1, TRANSC_MONTHS
+    INC_REG_TWO_LIMITS 0, 0, EDIT_REG_2, EDIT_REG_1, EDIT_REG_1
+
+    Octubre_up:
+    MOVLW 10
+    SUBWF TRANSC_MONTHS, W
+    BTFSS STATUS, 2
+    goto Noviembre_up
+    MOV_VALS_REGS 1, 0, EDIT_REG_4, EDIT_REG_3
+    OVRFLW_COUNT_RESET_INC 3, 2, EDIT_REG_2, EDIT_REG_1, TRANSC_MONTHS
+    INC_REG_TWO_LIMITS 0, 0, EDIT_REG_2, EDIT_REG_1, EDIT_REG_1
+
+    Noviembre_up:
+    MOVLW 11
+    SUBWF TRANSC_MONTHS, W
+    BTFSS STATUS, 2
+    goto Diciembre_up
+    MOV_VALS_REGS 1, 1, EDIT_REG_4, EDIT_REG_3
+    OVRFLW_COUNT_RESET_INC 3, 1, EDIT_REG_2, EDIT_REG_1, TRANSC_MONTHS
+    INC_REG_TWO_LIMITS 0, 0, EDIT_REG_2, EDIT_REG_1, EDIT_REG_1
+
+    Diciembre_up:
+    MOVLW 12
+    SUBWF TRANSC_MONTHS, W
+    BTFSS STATUS, 2
+    goto $+4
+    MOV_VALS_REGS 1, 2, EDIT_REG_4, EDIT_REG_3
+    OVRFLW_COUNT_RESET_INC 3, 2, EDIT_REG_2, EDIT_REG_1, TRANSC_MONTHS
+    INC_REG_TWO_LIMITS 0, 0, EDIT_REG_2, EDIT_REG_1, EDIT_REG_1
+    return
+
+
+date_limits_edit:
+    COUNT_RESET_INC 10, EDIT_REG_1, EDIT_REG_2
+    COUNT_RESET 6, EDIT_REG_2
+
+    return
+S1_edit_limits_down:
+    call months_transc_undrflw
+    call date_undrflw_limit
+
+    MOVLW 1 ; Enero
+    SUBWF TRANSC_MONTHS, W
+    BTFSS STATUS, 2
+    return
+    MOV_VALS_REGS 0, 1, EDIT_REG_4, EDIT_REG_3
+
+    MOVLW 0 ; SÍ: enviar la literal limit_units a W
+    SUBWF EDIT_REG_2, W ; Restar limit al registro register_rev_units
+    BTFSS STATUS, 2 ; verificar si ya se ha contado hasta limit_units
+    return ; NO: salir de la subrutina
+    MOVLW 0 ; Enviar la literal limit_decs a W
+    SUBWF EDIT_REG_1, W ; Restar limit al registro register_rev_decs
+    BTFSS STATUS, 2 ; Verificar si ya se ha contado hasta limit_decs
+    return ; NO: salir de la subrutina
+    MOVLW 3
+    MOVWF EDIT_REG_2
+    MOVLW 1
+    MOVWF EDIT_REG_1
+    DECF TRANSC_MONTHS
+    return
+
+months_transc_undrflw:
+    MOVLW 0
+    SUBWF TRANSC_MONTHS, W
+    BTFSS STATUS, 2
+    return
+    MOVLW 12
+    MOVWF TRANSC_MONTHS
+    return
+
+date_undrflw_limit:
+    UNDRFLW_RESET_DEC 0xFF, 9, EDIT_REG_1, EDIT_REG_2
+    return
+
 
 display_state_show:
     MOVLW 0 ; Revisión de si el estado actual es 0 - mover 0 a W
     SUBWF STATE, W ; Restar la literal a la variable STATE
     BTFSC STATUS, 2 ; Revisar si el resultado de la resta es 0
     call S0_edition_mode ; SÍ: enviar los valores de los displays de S0 en base al estado de EDIT
-
+    MOVLW 1 ; NO: verificar si el estado actual es 1 - mover 1 a W
+    SUBWF STATE, W
+    BTFSC STATUS, 2
+    call S1_edition_mode
     return
 
 S0_edition_mode:
     BTFSC EDIT, 0
-    goto $+2
-    goto $+3
-    DISPLAY_SHOW_STATE S0_MINS_UNITS, S0_MINS_DECS, S0_HRS_UNITS, S0_HRS_DECS
-    goto $+2
+    goto S0_edit
+    goto S0_hrs
+    S0_edit:
+    DISPLAY_SHOW_STATE EDIT_REG_1, EDIT_REG_2, EDIT_REG_3, EDIT_REG_4
+    return
+    S0_hrs:
     DISPLAY_SHOW_STATE S0_MINS_UNITS, S0_MINS_DECS, S0_HRS_UNITS, S0_HRS_DECS
     return
 
-
-S0_time_check:
-    COUNT_RESET_INC 60, S0_SECS, S0_MINS_UNITS
-    COUNT_RESET_INC 10, S0_MINS_UNITS, S0_MINS_DECS
-    COUNT_RESET_INC 6, S0_MINS_DECS, S0_HRS_UNITS
-    COUNT_RESET_INC 10, S0_HRS_UNITS, S0_HRS_DECS
-    OVRFLW_COUNT_RESET 2, 4, S0_HRS_DECS, S0_HRS_UNITS
+S1_edition_mode:
+    BTFSC EDIT, 0
+    goto S1_edit
+    goto S1_date
+    S1_edit:
+    DISPLAY_SHOW_STATE EDIT_REG_3, EDIT_REG_4, EDIT_REG_1, EDIT_REG_2
+    return
+    S1_date:
+    DISPLAY_SHOW_STATE S1_MONTHS_UNITS, S1_MONTHS_DECS, S1_DAYS_UNITS, S1_DAYS_DECS
     return
 
 ;-------------------------------------------------------------------------------
