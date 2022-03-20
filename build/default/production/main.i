@@ -2703,6 +2703,16 @@ MOV_REG_SETS macro register1, dest_register1, register2, dest_register2, registe
     S1_MONTHS_DECS: DS 1 ; 1 byte reservado (Variable para definir las decenas de meses transcurridos)
 
     TRANSC_MONTHS: DS 1 ; 1 byte reservado (Variable para contar la cantidad de meses transcurridos durante el año para definir la cantidad de días por mes)
+
+;******************** variables de modo timer S2 *******************************
+    S2_SECS_UNITS: DS 1 ; 1 byte reservado (Variable para definir las unidades de segundos transcurridos)
+    S2_SECS_DECS: DS 1 ; 1 byte reservado (Variable para definir las decenas de segundos transcurridos)
+    S2_MINS_UNITS: DS 1 ; 1 byte reservado (Variable para definir las unidades de minutos transcurridos)
+    S2_MINS_DECS: DS 1 ; 1 byte reservado (Variable para definir las decenas de minutos transcurridos)
+    TIME_OUT: DS 1 ; 1 byte reservado (Variable para indicar que la cuenta regresiva a finalizado)
+    TIME_OUT_SECS: DS 1 ; 1 byte reservado (Variable para contar el tiempo transcurrido desde que la cuenta regresiva a finalizado)
+    TIMER_START: DS 1 ; 1 byte reservado (Variable para indicar al timer que debe iniciar la cuenta)
+
 ;-------------------------------------------------------------------------------
 ;Vector Reset
 ;-------------------------------------------------------------------------------
@@ -2748,6 +2758,8 @@ int_IOCB:
     banksel PORTB
     BTFSS PORTB, 0
     call change_state
+    BTFSS PORTB, 1
+    call change_start
     BTFSS PORTB, 2
     call change_edit
     BTFSS PORTB, 3
@@ -2758,9 +2770,34 @@ int_IOCB:
     BCF ((INTCON) and 07Fh), 0 ; limpiamos la bandera de interrupción
     return
 
-change_state: ; se incrementa el valor del estado o modo
+change_state: ; se incrementa el valor del estado si el modo edición está deshabilitado
+    BTFSC EDIT, 0
+    return
     INCF STATE
-    COUNT_RESET 6, STATE
+    COUNT_RESET 3, STATE
+    return
+
+change_start:
+    MOVLW 2 ; Comprobamos que estamos en el modo timer para habilitar la bandera
+    SUBWF STATE, W ; iniciar/ parar.
+    BTFSS STATUS, 2
+    return ; si la bandera de timeout está activada, desactivarla y aumentar en uno los segundos del timer
+    BTFSC TIME_OUT, 0
+    goto restart_timer
+    goto start_stop_timer
+    return
+
+    restart_timer:
+    BCF TIME_OUT, 0
+    INCF S2_SECS_UNITS
+    BCF PORTA, 4
+    return
+
+    start_stop_timer:
+    BTFSC EDIT, 0
+    return
+    MOVLW 1 ; Cambiamos el estado de la bandera de iniciar/parar
+    XORWF TIMER_START, F
     return
 
 change_edit: ; Se habilita o deshabilita el modo edición
@@ -2788,9 +2825,18 @@ capture_reg_values:
     MOVLW 1 ; NO: Revisión de si el estado actual es 1 - mover 1 a W
     SUBWF STATE, W ; Restar la literal a la variable STATE
     BTFSS STATUS, 2 ; Revisar si el resultado de la resta es 0
-    return
-       ; SÍ: enviar los valores de las variables de S0 a las variables del modo edit
+    goto S2_reg_values
+       ; SÍ: enviar los valores de las variables de S1 a las variables del modo edit
     MOV_REG_SETS S1_DAYS_UNITS, EDIT_REG_1, S1_DAYS_DECS, EDIT_REG_2, S1_MONTHS_UNITS, EDIT_REG_3, S1_MONTHS_DECS, EDIT_REG_4
+
+    S2_reg_values:
+    MOVLW 2 ; NO: Revisión de si el estado actual es 2 - mover 2 a W
+    SUBWF STATE, W ; Restar la literal a la variable STATE
+    BTFSS STATUS, 2 ; Revisar si el resultado de la resta es 0
+    return
+       ; SÍ: enviar los valores de las variables de S2 a las variables del modo edit
+    MOV_REG_SETS S2_SECS_UNITS, EDIT_REG_1, S2_SECS_DECS, EDIT_REG_2, S2_MINS_UNITS, EDIT_REG_3, S2_MINS_DECS, EDIT_REG_4
+
     return
 
 ret_reg_values:
@@ -2805,9 +2851,17 @@ ret_reg_values:
     MOVLW 1 ; NO: Revisión de si el estado actual es 1 - mover 1 a W
     SUBWF STATE, W ; Restar la literal a la variable STATE
     BTFSS STATUS, 2 ; Revisar si el resultado de la resta es 0
-    return
+    goto S2_ret_values
        ; SÍ: enviar los valores de las variables del modo edit a las variables de S0
     MOV_REG_SETS EDIT_REG_1, S1_DAYS_UNITS, EDIT_REG_2, S1_DAYS_DECS, EDIT_REG_3, S1_MONTHS_UNITS, EDIT_REG_4, S1_MONTHS_DECS
+
+    S2_ret_values:
+    MOVLW 2 ; NO: Revisión de si el estado actual es 2 - mover 2 a W
+    SUBWF STATE, W ; Restar la literal a la variable STATE
+    BTFSS STATUS, 2 ; Revisar si el resultado de la resta es 0
+    return
+       ; SÍ: enviar los valores de las variables del modo edit a las variables de S0
+    MOV_REG_SETS EDIT_REG_1, S2_SECS_UNITS, EDIT_REG_2, S2_SECS_DECS, EDIT_REG_3, S2_MINS_UNITS, EDIT_REG_4, S2_MINS_DECS
     return
 
 int_TMR0:
@@ -2866,11 +2920,53 @@ display_3:
     return
 
 int_TMR1:
-    INCF S0_SECS ; incrementamos la variable de segundos
+    INCF S0_SECS ; incrementamos la variable de segundos del modo hora
+    MOVLW 1 ; Si la bandera de iniciar está activada, decrementar
+    SUBWF TIMER_START, W ; la variable segundos del modo timer
+    BTFSC STATUS, 2
+    call dec_timer
+    MOVLW 1 ; verificamos si la bandera de time out está activada
+    SUBWF TIME_OUT, W
+    BTFSC STATUS, 2
+    call time_out_count
     RESTART_TMR1 0x0B, 0xDC ; reiniciamos el TIMER1
-
     return
 
+dec_timer:
+    DECF S2_SECS_UNITS
+
+    MOVLW 0 ; verificamos si la cuenta regresiva en las variables del timer ha llegado a cero
+    SUBWF S2_SECS_UNITS, W
+    BTFSS STATUS, 2
+    return
+    MOVLW 0
+    SUBWF S2_SECS_DECS, W
+    BTFSS STATUS, 2
+    return
+    MOVLW 0
+    SUBWF S2_MINS_UNITS, W
+    BTFSS STATUS, 2
+    return
+    MOVLW 0
+    SUBWF S2_MINS_DECS, W
+    BTFSS STATUS, 2
+    return
+    BCF TIMER_START, 0 ; si todas las variables del timer han llegado a 0, habilitar la bandera de
+    BSF TIME_OUT, 0 ; timeout, deshabilitar la bandera de start y
+    BSF PORTA, 4 ; habilitar la led de alarma
+    return
+
+time_out_count:
+    INCF TIME_OUT_SECS ; Si la bandera de time out está activada, incrementar segundos de timeout
+    MOVLW 60 ; Si ya han transcurrido 60 segundos de timeout, apagar la led de alarma
+    SUBWF TIME_OUT_SECS, W ; e incrementar en uno la cantidad de segundos transcurridos
+    BTFSS STATUS, 2
+    return
+    BCF PORTA, 4
+    BCF TIME_OUT, 0
+    CLRF TIME_OUT_SECS
+    INCF S2_SECS_UNITS
+    return
 ;-------------------------------------------------------------------------------
 ;Tabla para display de siete segmentos
 ;-------------------------------------------------------------------------------
@@ -2915,7 +3011,7 @@ main:
     call config_ports ; configuramos puertos
 
     INCF TRANSC_MONTHS ; empezamos en el mes 1 (enero)
-
+    INCF S2_SECS_UNITS ; empezamos la cuenta del timer en 1 segundo
 
     banksel PORTA
            ;---------------------------------------------------
@@ -2930,13 +3026,14 @@ main:
 loop:
     call S0_time_check ; Control del tiempo en las variables del modo hora
     call S1_date_check ; Control de la fecha en las variables del modo fecha
+    call S2_timer_check ; control del tiempo en las variables del modo timer
     call display_state_show ; Envío de literales a los displays dependiendo del modo
     call edit_reg_check ; Control del overflow y underflow de las variables de edición
+    call state_edit_leds ; Control sobre la activación de leds acorde al modo y estado
 
 
 
-    MOVF TRANSC_MONTHS, W
-    MOVWF PORTA
+
     goto loop
 
 
@@ -3074,6 +3171,13 @@ date_limits: ; Empezar los días de cada mes en 1 y aumentar una decena cada 10 u
     COUNT_RESET 6, S1_DAYS_DECS
     return
 
+S2_timer_check:
+    UNDRFLW_RESET_DEC 0xFF, 9, S2_SECS_UNITS, S2_SECS_DECS
+    UNDRFLW_RESET_DEC 0xFF, 5, S2_SECS_DECS, S2_MINS_UNITS
+    UNDRFLW_RESET_DEC 0xFF, 9, S2_MINS_UNITS, S2_MINS_DECS
+    UNDRFLW_RESET 0xFF, 9, S2_MINS_DECS
+    return
+
 edit_reg_check:
     MOVLW 0 ; Revisión de si el estado actual es 0 - mover 0 a W
     SUBWF STATE, W ; Restar la literal a la variable STATE
@@ -3085,11 +3189,16 @@ edit_reg_check:
     BTFSC STATUS, 2 ; Revisar si el resultado de la resta es 0
     call S1_edit_limits ; SÍ: verificar los límites de las variables de edición durante el estado S1
 
+    MOVLW 2 ; Revisión de si el estado actual es 2 - mover 2 a W
+    SUBWF STATE, W ; Restar la literal a la variable STATE
+    BTFSC STATUS, 2 ; Revisar si el resultado de la resta es 0
+    call S2_edit_limits ; SÍ: verificar los límites de las variables de edición durante el estado S1
     return
 
 S0_edit_limits: ; Revisión de límites superiores e inferiores de S0
     call S0_edit_limits_up
     call S0_edit_limits_down
+    return
 
 S0_edit_limits_up: ; Valores máximos del modo hora
     COUNT_RESET_INC 10, EDIT_REG_1, EDIT_REG_2
@@ -3360,6 +3469,31 @@ date_undrflw_limit: ; Contar desde 9 cuando el valor del día baja de 0
     UNDRFLW_RESET_DEC 0xFF, 9, EDIT_REG_1, EDIT_REG_2
     return
 
+S2_edit_limits:
+    call S2_edit_limits_up
+    call S2_edit_limits_down
+    return
+
+S2_edit_limits_up: ; Valores máximos del modo timer
+    COUNT_RESET_INC 10, EDIT_REG_1, EDIT_REG_2
+    COUNT_RESET_INC 6, EDIT_REG_2, EDIT_REG_3
+    OVRFLW_COUNT_RESET_INC 9, 10, EDIT_REG_4, EDIT_REG_3, EDIT_REG_1
+    COUNT_RESET_INC 10, EDIT_REG_3, EDIT_REG_4
+    return
+
+S2_edit_limits_down: ; Valores mínimos del modo timer
+    call S2_undrflw_limit
+    UNDRFLW_RESET_DEC 0xFF, 9, EDIT_REG_1, EDIT_REG_2
+    UNDRFLW_RESET_DEC 0xFF, 5, EDIT_REG_2, EDIT_REG_3
+    UNDRFLW_RESET_DEC 0xFF, 9, EDIT_REG_3, EDIT_REG_4
+    UNDRFLW_RESET 0xFF, 9, EDIT_REG_4
+    return
+
+S2_undrflw_limit:
+    ZERO_DOUBLE_UNDRFLW_DEC 5,9, EDIT_REG_2, EDIT_REG_1, EDIT_REG_3
+    UNDRFLW_RESET_DEC 0xFF, 9, EDIT_REG_3, EDIT_REG_4
+    UNDRFLW_RESET 0xFF, 9, EDIT_REG_4
+    return
 
 display_state_show:
     MOVLW 0 ; Revisión de si el estado actual es 0 - mover 0 a W
@@ -3370,6 +3504,10 @@ display_state_show:
     SUBWF STATE, W ; Restar la literal a la variable STATE
     BTFSC STATUS, 2 ; Revisar si el resultado de la resta es 0
     call S1_edition_mode ; SÍ: enviar los valores de los displays de S1 en base al estado de EDIT
+    MOVLW 2 ; NO: verificar si el estado actual es 2 - mover 2 a W
+    SUBWF STATE, W ; Restar la literal a la variable STATE
+    BTFSC STATUS, 2 ; Revisar si el resultado de la resta es 2
+    call S2_edition_mode ; SÍ: enviar los valores de los displays de S2 en base al estado de EDIT
     return
 
 S0_edition_mode:
@@ -3394,6 +3532,57 @@ S1_edition_mode:
     DISPLAY_SHOW_STATE S1_MONTHS_UNITS, S1_MONTHS_DECS, S1_DAYS_UNITS, S1_DAYS_DECS
     return
 
+S2_edition_mode:
+    BTFSC EDIT, 0 ; verificar si estamos en el modo edición o modo timer
+    goto S2_edit
+    goto S2_timer
+    S2_edit:
+    DISPLAY_SHOW_STATE EDIT_REG_1, EDIT_REG_2, EDIT_REG_3, EDIT_REG_4
+    return
+    S2_timer:
+    DISPLAY_SHOW_STATE S2_SECS_UNITS, S2_SECS_DECS, S2_MINS_UNITS, S2_MINS_DECS
+    return
+
+state_edit_leds:
+    call state_leds
+    call edit_led
+    return
+
+state_leds:
+
+    MOVLW 0
+    SUBWF STATE, W
+    BTFSS STATUS, 2
+    goto S1_led
+    BCF PORTA, 0
+    BSF PORTA, 2
+    return
+
+    S1_led:
+    MOVLW 1
+    SUBWF STATE, W
+    BTFSS STATUS, 2
+    goto S2_led
+    BCF PORTA, 2
+    BSF PORTA, 1
+    return
+
+    S2_led:
+    MOVLW 2
+    SUBWF STATE, W
+    BTFSS STATUS, 2
+    return
+    BCF PORTA, 1
+    BSF PORTA, 0
+    return
+edit_led:
+    btfss EDIT, 0 ; Verificar si el modo edición está activado, y encender una led en ese caso
+    goto $+2
+    goto $+3
+    BCF PORTA, 3
+    goto $+2
+    BSF PORTA, 3
+    return
 ;-------------------------------------------------------------------------------
 ;subrutinas de configuración
 ;-------------------------------------------------------------------------------
