@@ -5,7 +5,7 @@ Linker command line:
 -W-3 --edf=C:\Program Files\Microchip\xc8\v2.35\pic\dat\en_msgs.txt -cs \
   -h+dist/default/production\Reloj.X.production.sym \
   --cmf=dist/default/production\Reloj.X.production.cmf -z -Q16F887 \
-  -oC:\Users\THEJ0S~1\AppData\Local\Temp\xcAsn08.4 \
+  -oC:\Users\THEJ0S~1\AppData\Local\Temp\xcAsilc.4 \
   -ver=XC8 PIC(R) Assembler \
   -Mdist/default/production/Reloj.X.production.map -E1 --acfsm=1493 \
   -ACODE=00h-07FFhx4 -ASTRCODE=00h-01FFFh -ASTRING=00h-0FFhx32 \
@@ -27,15 +27,15 @@ Machine type is 16F887
                 Name                               Link     Load   Length Selector   Space Scale
 build/default/production/main.o
                 config                             2007     2007        2        0       4
-                table                                 0        0      6C4        0       0
-                VectorReset                           0        0       E7        0       0
-                udata_bank0                          20       20       1E       20       1
+                table                                 0        0      6C5        0       0
+                VectorReset                           0        0       FD        0       0
+                udata_bank0                          20       20       1F       20       1
                 udata_shr                            70       70        2       70       1
 
 TOTAL           Name                               Link     Load   Length     Space
         CLASS   CODE           
-                table                                 0        0      6C4         0
-                VectorReset                           0        0       E7         0
+                table                                 0        0      6C5         0
+                VectorReset                           0        0       FD         0
 
         CLASS   STRCODE        
 
@@ -49,7 +49,7 @@ TOTAL           Name                               Link     Load   Length     Sp
                 udata_shr                            70       70        2         1
 
         CLASS   BANK0          
-                udata_bank0                          20       20       1E         1
+                udata_bank0                          20       20       1F         1
 
         CLASS   BANK1          
 
@@ -80,35 +80,35 @@ TOTAL           Name                               Link     Load   Length     Sp
 
 SEGMENTS        Name                           Load    Length   Top    Selector   Space  Class     Delta
 
-                udata_bank0                    000020  00001E  00003E        20       1  BANK0       1
+                udata_bank0                    000020  00001F  00003F        20       1  BANK0       1
                 udata_shr                      000070  000002  000072        70       1  COMMON      1
 
 
 UNUSED ADDRESS RANGES
 
         Name                Unused          Largest block    Delta
-        BANK0            003E-006F             32           1
+        BANK0            003F-006F             31           1
         BANK1            00A0-00EF             50           1
         BANK2            0110-016F             60           1
         BANK3            0190-01EF             60           1
-        CODE             06C4-1FFF            800           2
+        CODE             06C5-1FFF            800           2
         COMMON           0072-007F              E           1
-        CONST            06C4-1FFF            100           2
+        CONST            06C5-1FFF            100           2
         EEDATA           2100-21FF            100           2
-        ENTRY            06C4-1FFF            100           2
+        ENTRY            06C5-1FFF            100           2
         IDLOC            2000-2003              4           2
-        RAM              003E-006F             32           1
+        RAM              003F-006F             31           1
                          00A0-00EF             50
                          0110-016F             60
                          0190-01EF             60
-        STRCODE          06C4-1FFF           193C           2
-        STRING           06C4-1FFF            100           2
+        STRCODE          06C5-1FFF           193B           2
+        STRING           06C5-1FFF            100           2
 
                                   Symbol Table
 
 __HVectorReset VectorReset 0000  __Hcode        code        0000
 __Hconfig      config      2009  __Hdata        data        0000
-__Hedata       edata       0000  __Hspace_0     (abs)       06C4
+__Hedata       edata       0000  __Hspace_0     (abs)       06C5
 __Hspace_1     (abs)       0072  __Hspace_3     (abs)       0000
 __Hspace_4     (abs)       4010  __Htable       table       0000
 __Hudata       udata       0000  __Hudata_bank0 udata_bank0 0000

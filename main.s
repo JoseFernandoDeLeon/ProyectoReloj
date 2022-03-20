@@ -230,7 +230,7 @@ MOV_REG_SETS macro register1, dest_register1, register2, dest_register2, registe
 ;******************** variables de selección de modo ***************************
     STATE:	    DS 1	; 1 byte reservado (Variable que indica el modo actual)
     EDIT:	    DS 1	; 1 byte reservado (Variable que indica el si se ha habilitado el modo editar)
-
+    TOOGLE:	    DS 1	; 1 byte reservado (Variable para encender o apagar los dos puntos del display)
 ;******************** variables de modo edición ********************************
     
     EDIT_REG_1: DS 1		; 4 bytes reservados (Variable que almacena el primer valor de los displays del modo edición)
@@ -292,8 +292,8 @@ isr:				; revisamos donde ocurrió la interrupción
     call    int_TMR0
     BTFSC   TMR1IF  
     call    int_TMR1
-   // BTFSC   TMR2IF
-   // call    int_TMR2
+    BTFSC   TMR2IF
+    call    int_TMR2
     
 pop:				;regresamos los valores de W y STATUS
     SWAPF STATUS_TEMP, W
@@ -316,7 +316,7 @@ int_IOCB:
     BTFSS PORTB, 3
     DECF EDIT_REG_1
     BTFSS PORTB, 4
-    INCF EDIT_REG_1 
+    INCF EDIT_REG_1
     
     BCF RBIF		    ; limpiamos la bandera de interrupción
     return
@@ -517,6 +517,33 @@ time_out_count:
     BCF TIME_OUT, 0
     CLRF TIME_OUT_SECS
     INCF S2_SECS_UNITS
+    return
+
+int_TMR2:
+    call change_led_1
+    call change_led_2
+   
+    BCF TMR2IF
+    return
+    
+change_led_1:
+    BTFSC PORTA, 5
+    goto $+3
+    BSF PORTA, 5
+    goto $+4
+    BTFSS PORTA, 5
+    goto $+2
+    BCF PORTA, 5
+    return
+    
+change_led_2:
+    BTFSC PORTA, 6
+    goto $+3
+    BSF PORTA, 6
+    goto $+4
+    BTFSS PORTA, 6
+    goto $+2
+    BCF PORTA, 6
     return
 ;-------------------------------------------------------------------------------
 ;Tabla para display de siete segmentos
@@ -1174,8 +1201,8 @@ config_TMR1:
 
 config_TMR2:
     banksel PR2
-    MOVLW   244		    ; Valor para interrupciones cada 50ms
-    MOVWF   PR2		    ; Cargamos litaral a PR2
+    MOVLW   244		    ; Valor para interrupciones cada 500ms
+    MOVWF   PR2		    ; Cargamos literal a PR2
     
     BANKSEL T2CON	    ; Cambiamos a banco 00
     BSF	    T2CKPS1	    ; Prescaler 1:16
@@ -1196,7 +1223,7 @@ config_IOCB:
     BSF IOCB, 2
     BSF IOCB, 3
     BSF IOCB, 4	    ; seteamos los primeros 5 bits del puerto B como interrupt on change
-    
+   	    
     banksel PORTA
     MOVF PORTB, W   ; Al leer termina condición de mismatch
     BCF RBIF
@@ -1206,7 +1233,7 @@ config_IOCB:
 config_int_enable:
     banksel TRISA
     BSF	TMR1IE		    ; Habilitar interrupción del TIMER1 
-    //BSF TMR2IE		    ; Habilitar interrupción del TIMER2
+    BSF TMR2IE		    ; Habilitar interrupción del TIMER2
     
     banksel PORTA
     BSF GIE		    ; INTCON: Habilitar interrupciones globales	    
