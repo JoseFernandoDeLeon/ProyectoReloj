@@ -25,14 +25,14 @@ PROCESSOR 16F887
 ; CONFIG1
   CONFIG FOSC = INTRC_NOCLKOUT ; Oscillator Selection bits (INTOSCIO oscillator: I/O function on RA6/OSC2/CLKOUT pin, I/O function on RA7/OSC1/CLKIN)
   CONFIG WDTE = OFF ; Watchdog Timer Enable bit (WDT disabled and can be enabled by SWDTEN bit of the WDTCON register)
-  CONFIG PWRTE = ON ; Power-up Timer Enable bit (PWRT enabled)
+  CONFIG PWRTE = OFF ; Power-up Timer Enable bit (PWRT enabled)
   CONFIG MCLRE = OFF ; RE3/MCLR pin function select bit (RE3/MCLR pin function is digital input, MCLR internally tied to VDD)
   CONFIG CP = OFF ; Code Protection bit (Program memory code protection is disabled)
   CONFIG CPD = OFF ; Data Code Protection bit (Data memory code protection is disabled)
   CONFIG BOREN = OFF ; Brown Out Reset Selection bits (BOR enabled)
   CONFIG IESO = OFF ; Internal External Switchover bit (Internal/External Switchover mode is enabled)
   CONFIG FCMEN = OFF ; Fail-Safe Clock Monitor Enabled bit (Fail-Safe Clock Monitor is enabled)
-  CONFIG LVP = ON ; Low Voltage Programming Enable bit (RB3/PGM pin has PGM function, low voltage programming enabled)
+  CONFIG LVP = OFF ; Low Voltage Programming Enable bit (RB3/PGM pin has PGM function, low voltage programming enabled)
 
 ; CONFIG2
   CONFIG BOR4V = BOR40V ; Brown-out Reset Selection bit (Brown-out Reset set to 4.0V)
@@ -2828,6 +2828,7 @@ capture_reg_values:
     goto S2_reg_values
        ; SÍ: enviar los valores de las variables de S1 a las variables del modo edit
     MOV_REG_SETS S1_DAYS_UNITS, EDIT_REG_1, S1_DAYS_DECS, EDIT_REG_2, S1_MONTHS_UNITS, EDIT_REG_3, S1_MONTHS_DECS, EDIT_REG_4
+    return
 
     S2_reg_values:
     MOVLW 2 ; NO: Revisión de si el estado actual es 2 - mover 2 a W
@@ -2836,7 +2837,6 @@ capture_reg_values:
     return
        ; SÍ: enviar los valores de las variables de S2 a las variables del modo edit
     MOV_REG_SETS S2_SECS_UNITS, EDIT_REG_1, S2_SECS_DECS, EDIT_REG_2, S2_MINS_UNITS, EDIT_REG_3, S2_MINS_DECS, EDIT_REG_4
-
     return
 
 ret_reg_values:
@@ -2846,6 +2846,7 @@ ret_reg_values:
     goto S1_ret_values
        ; SÍ: enviar los valores de las variables del modo edit a las variables de S0
     MOV_REG_SETS EDIT_REG_1, S0_MINS_UNITS, EDIT_REG_2, S0_MINS_DECS, EDIT_REG_3, S0_HRS_UNITS, EDIT_REG_4, S0_HRS_DECS
+    return
 
     S1_ret_values:
     MOVLW 1 ; NO: Revisión de si el estado actual es 1 - mover 1 a W
@@ -2854,6 +2855,7 @@ ret_reg_values:
     goto S2_ret_values
        ; SÍ: enviar los valores de las variables del modo edit a las variables de S0
     MOV_REG_SETS EDIT_REG_1, S1_DAYS_UNITS, EDIT_REG_2, S1_DAYS_DECS, EDIT_REG_3, S1_MONTHS_UNITS, EDIT_REG_4, S1_MONTHS_DECS
+    return
 
     S2_ret_values:
     MOVLW 2 ; NO: Revisión de si el estado actual es 2 - mover 2 a W
@@ -2999,12 +3001,12 @@ change_led_2:
 ;-------------------------------------------------------------------------------
 
 PSECT table, class = CODE, abs, delta = 2
-ORG 150h
+ORG 100h
 
 table:
     CLRF PCLATH
     BSF PCLATH, 0 ; PCLATH en 01
-    ANDLW 0X0F
+    ANDLW 0x0F
     ADDWF PCL ; PC = PCLATH + PCL | Sumamos W al PCL para seleccionar un dato en la tabla
     retlw 00111111B ; 0
     retlw 00000110B ; 1
@@ -3721,8 +3723,39 @@ config_ports:
     CLRF PORTA ; limpiamos PORTA
     CLRF PORTC ; limpiamos PORTC
     CLRF PORTD ; limpiamos PORTD
+
     CLRF flags
+    CLRF nibbles
+    CLRF display_val
     CLRF STATE
+    CLRF EDIT
+    CLRF TOOGLE
+    CLRF EDIT_REG_1
+    CLRF EDIT_REG_2
+    CLRF EDIT_REG_3
+    CLRF EDIT_REG_4
+
+    CLRF S0_SECS
+    CLRF S0_MINS_UNITS
+    CLRF S0_MINS_DECS
+    CLRF S0_HRS_UNITS
+    CLRF S0_HRS_DECS
+
+    CLRF S1_DAYS_UNITS
+    CLRF S1_DAYS_DECS
+    CLRF S1_MONTHS_UNITS
+    CLRF S1_MONTHS_DECS
+
+    CLRF TRANSC_MONTHS
+
+    CLRF S2_SECS_UNITS
+    CLRF S2_SECS_DECS
+    CLRF S2_MINS_UNITS
+    CLRF S2_MINS_DECS
+    CLRF TIME_OUT
+    CLRF TIME_OUT_SECS
+    CLRF TIMER_START
+
 
     return
 END
